@@ -22,11 +22,12 @@ cd jyje-pilot-mlops-cicd
 
 cd notebooks
 pyenv install 3.12.8
-pyenv virtualenv 3.12.8 jyje-pilot-mlops-cicd-note-1
-pyenv local jyje-pilot-mlops-cicd-note-1
+pyenv virtualenv 3.12.8 jyje-pilot-mlops-cicd-notebook
+pyenv local jyje-pilot-mlops-cicd-notebook
 ```
 
 Then, run notebook what you want
 
 ## Notebook
+- [note-0-just-test.ipynb](note-0-just-test.ipynb)
 - [note-1-train-and-test.ipynb](note-1-train-and-test.ipynb)
