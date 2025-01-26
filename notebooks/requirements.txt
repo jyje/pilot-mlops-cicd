@@ -1,0 +1,4 @@
+torch        < 2.6
+torchvision  < 0.21
+torchsummary < 1.6
+matplotlib   < 3.11
