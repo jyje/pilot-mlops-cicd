@@ -29,5 +29,5 @@ pyenv local jyje-pilot-mlops-cicd-notebook
 Then, run notebook what you want
 
 ## Notebook
-- [note-0-just-test.ipynb](note-0-just-test.ipynb)
-- [note-1-train-and-test.ipynb](note-1-train-and-test.ipynb)
+- [note-0-just-test.ipynb](note-0-just-test.ipynb): Quick model test
+- [note-1-train-and-test.ipynb](note-1-train-and-test.ipynb): Main task of training and testing the model
