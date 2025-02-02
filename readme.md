@@ -20,3 +20,8 @@ This project implements a complete MLOps pipeline from model training to service
 - Dataset: MNIST
 - Language: Python
 - Serving Platform: NVIDIA Triton Inference Server
+
+## References
+### Official
+- https://github.com/pytorch/serve
+- https://github.com/pytorch/torchscript
