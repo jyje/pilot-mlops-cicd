@@ -31,3 +31,4 @@ Then, run notebook what you want
 ## Notebook
 - [note-0-just-test.ipynb](note-0-just-test.ipynb): Quick model test
 - [note-1-train-and-test.ipynb](note-1-train-and-test.ipynb): Main task of training and testing the model
+- [note-2-serve-model.ipynb](note-2-serve-model.ipynb): Serving the model with the NVIDIA Triton
