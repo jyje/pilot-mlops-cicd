@@ -25,6 +25,9 @@ This project implements a complete MLOps pipeline from model training to service
 - Language: Python
 - Serving Platform: NVIDIA Triton Inference Server
 
+## Getting Started
+See [k8s/readme.md](k8s/readme.md)
+
 ## References
 ### Official
 - https://github.com/pytorch/serve
