@@ -1,0 +1,5 @@
+torch               < 2.6
+torchvision         < 0.21
+torchsummary        < 1.6
+requests            < 2.33
+tritonclient[grpc]  < 2.55

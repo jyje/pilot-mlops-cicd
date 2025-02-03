@@ -5,8 +5,12 @@
 .vscode/
 
 ## -- Project
+assets/data/
+assets/models/
 notebooks/data/
 notebooks/models/
+sources/data/
+sources/models/
 
 ## -- Python
 # Byte-compiled / optimized / DLL files
