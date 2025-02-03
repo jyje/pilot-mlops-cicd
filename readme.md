@@ -1,6 +1,16 @@
 # pilot-mlops-cicd
 This project implements a complete MLOps pipeline from model training to service deployment in a Cloud Native environment.
 
+## TL;DR
+
+- Why this project?
+    - To implement a complete MLOps pipeline from model training to service deployment in a Cloud Native environment.
+    - To provide a reference implementation of MLOps pipeline for future projects.
+- What did we do?
+    1. Do Jupyter Notebook PoC using NVIDIA Triton Inference Server
+    1. Build a CI/CD system for model training and deployment
+    1. Do demonstrations using Kubernetes clusters
+
 ## Project Goals
 
 ### MLOps Pipeline Implementation
@@ -27,6 +37,13 @@ This project implements a complete MLOps pipeline from model training to service
 
 ## Getting Started
 See [k8s/readme.md](k8s/readme.md)
+
+## Project Structure
+
+- assets: Sample images and models
+- k8s: Kubernetes manifests
+- notebooks: Jupyter notebooks for PoC
+- sources: Python source code for model builder and model client
 
 ## References
 ### Official
