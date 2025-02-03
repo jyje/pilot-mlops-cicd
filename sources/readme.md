@@ -38,3 +38,17 @@ python model-builder.py \
   --log-level DEBUG \
   --dry-run
 ```
+
+### Run the model client
+
+```sh
+python model-client.py --help
+
+# Run the model client with custom values
+python -u model-client.py \
+  --server-host "localhost:8001" \
+  --model-name "pilot" \
+  --model-version "1" \
+  --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/0a.png" \
+  --log-level DEBUG
+```

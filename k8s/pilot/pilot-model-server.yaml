@@ -18,7 +18,7 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
-          while [ ! -f /models/${MODEL_NAME}/${MODEL_VERSION}/config.pbtxt ]; do
+          while [ ! -f /models/${MODEL_NAME}/${MODEL_VERSION}/model.pt ]; do
             echo "Waiting for the model to be ready..."
             sleep 1
           done && \
@@ -30,12 +30,16 @@ spec:
         - name: models
           mountPath: /models
           readOnly: true
+        securityContext:
+          allowPrivilegeEscalation: false
       containers:
       - name: triton-server
         image: nvcr.io/nvidia/tritonserver:25.01-py3
-        command: ["tritonserver"]
+        command: ["sh", "-c"]
         args:
-        - --model-repository=${MODEL_REPOSITORY}
+        - |
+          tritonserver \
+            --model-repository=${MODEL_REPOSITORY}
         envFrom:
         - configMapRef:
             name: model-server

@@ -1,5 +1,6 @@
 import logging, os, time
-import torch, torchvision, torchsummary
+import cv2, urllib.request, numpy as np
+import torch, torchvision, torchsummary, tritonclient.grpc
 import configs as cfn
 
 transform = torchvision.transforms.Compose(
@@ -215,3 +216,106 @@ def save_model(
 
     logging.debug("Save Model... done\n")
     return model_path, model_config_path
+
+
+def connect_server(
+    server_host: str,
+):
+    """
+    Connect to the model server
+    """
+    
+    client = tritonclient.grpc.InferenceServerClient(
+        url = server_host,
+        verbose = False,
+    )
+
+    assert client.is_server_live(), f"The model server is not live: {server_host}"
+    assert client.is_server_ready(), f"The model server is not ready: {server_host}"
+
+    logging.debug(f"Connected to the model server: {server_host}")
+
+    return client
+
+
+def url_to_tensor(image_url: str) -> torch.Tensor:
+    """
+    Download the PNG image from the URL and convert it to a model input tensor.
+    """
+    # 1. Download the image from the URL
+    response = urllib.request.urlopen(image_url)
+    image_array = np.asarray(bytearray(response.read()), dtype=np.uint8)
+    
+    # 2. Decode the image and preprocess it
+    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+    # 흑백으로 변환
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # 3채널로 확장 (H,W) -> (H,W,3)
+    image = np.stack([image]*3, axis=-1)
+    image = cv2.resize(image, (cfn.RESIZE_SIZE[0], cfn.RESIZE_SIZE[1]))
+    
+    # 3. Normalize the image (0-255 -> 0-1)
+    image = image.astype(np.float32) / 255.0
+    
+    # 4. Convert the dimension: (H, W, C) -> (C, H, W)
+    image = np.transpose(image, (2, 0, 1))
+    
+    # 5. Convert the numpy array to a torch tensor
+    tensor = torch.from_numpy(image)
+        
+    return tensor
+
+
+def request_to_server(
+    client: tritonclient.grpc.InferenceServerClient,
+    model_name: str,
+    model_version: str,
+    image: torch.Tensor,
+):
+    """
+    Request to the model server
+    """
+
+    image_numpy = image.unsqueeze(0).numpy()
+
+    logging.debug(f"Image shape: {image_numpy.shape}")
+
+    # Set inputs
+    inputs = []
+    input_tensor = tritonclient.grpc.InferInput("x.1", image_numpy.shape, "FP32")
+    input_tensor.set_data_from_numpy(image_numpy)
+    inputs.append(input_tensor)
+
+    # Set outputs
+    outputs = []
+    outputs.append(tritonclient.grpc.InferRequestedOutput("4"))
+    
+    # Do inference
+    response = client.infer(
+        model_name = model_name,
+        model_version = model_version,
+        inputs = inputs,
+        outputs = outputs,
+    )
+
+    return response
+
+
+def summarize_response(
+    response: tritonclient.grpc.InferResult,
+):
+    """
+    Summarize the response
+    """
+    output_data = response.as_numpy("4")
+    print(output_data)
+
+    probabilities = torch.nn.functional.softmax(torch.from_numpy(output_data), dim=1)
+    predicted_class = torch.argmax(probabilities).item()
+
+    logging.info(f"Predicted class: {predicted_class}")
+    logging.info(f"Probabilities: {probabilities}")
+
+    print(f"Probability Distribution:")
+    for idx, prob in enumerate(probabilities[0]):
+        print(f" - Number {idx}: {prob.item()*100:.2f}%")
