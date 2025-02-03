@@ -1,18 +1,13 @@
 import logging, os, time
 import torch, torchvision, torchsummary
-
-# Constants
-CHANNEL_SIZE = 3
-RESIZE_SIZE = (224, 224)
-NORMALIZE_MEAN = (0.5,0.5,0.5)
-NORMALIZE_STD = (0.5,0.5,0.5)
+import configs as cfn
 
 transform = torchvision.transforms.Compose(
     [
-        torchvision.transforms.Resize(RESIZE_SIZE),
+        torchvision.transforms.Resize(cfn.RESIZE_SIZE),
         torchvision.transforms.ToTensor(),
-        torchvision.transforms.Lambda(lambda x: x.repeat(CHANNEL_SIZE, 1, 1)),
-        torchvision.transforms.Normalize(NORMALIZE_MEAN,NORMALIZE_STD),
+        torchvision.transforms.Lambda(lambda x: x.repeat(cfn.CHANNEL_SIZE, 1, 1)),
+        torchvision.transforms.Normalize(cfn.NORMALIZE_MEAN,cfn.NORMALIZE_STD),
     ]
 )
 
@@ -87,7 +82,7 @@ def train_model(
             
             time.sleep(0.3)
             batch_count += batch_size
-            logging.debug(f"  Batch {batch_count}/{data_size} (Partial Loss: {dry_loss:.4f}, Partial Accuracy: {100*dry_acc:.1f}%)")
+            logging.info(f"Batch {batch_count}/{data_size} (Partial Loss: {dry_loss:.4f}, Partial Accuracy: {100*dry_acc:.1f}%)")
             return dry_loss, dry_acc
 
         for images, labels in dataloader:
@@ -103,7 +98,7 @@ def train_model(
             correct += (predicted == labels).sum().item()
 
             batch_count += batch_size
-            logging.debug(f"  Batch {batch_count}/{data_size} (Partial Loss: {loss.item():.4f}, Partial Accuracy: {100*correct/total:.1f}%)")
+            logging.info(f"Batch {batch_count}/{data_size} (Partial Loss: {loss.item():.4f}, Partial Accuracy: {100*correct/total:.1f}%)")
 
         total_loss = train_loss / total
         total_acc = correct / total
@@ -144,7 +139,7 @@ def train_model(
     logging.info(f"Model Summary by `torchsummary`:")
     torchsummary.summary(
         model = model,
-        input_size = (CHANNEL_SIZE, RESIZE_SIZE[0], RESIZE_SIZE[1]),
+        input_size = (cfn.CHANNEL_SIZE, cfn.RESIZE_SIZE[0], cfn.RESIZE_SIZE[1]),
     )
 
     logging.debug(f"Train Model... done\n")
@@ -200,7 +195,7 @@ def save_model(
         {{
             name: {input_layer_name}
             data_type: {input_layer_data_type}
-            dims: [ {CHANNEL_SIZE}, {RESIZE_SIZE[0]}, {RESIZE_SIZE[1]} ]
+            dims: [ {cfn.CHANNEL_SIZE}, {cfn.RESIZE_SIZE[0]}, {cfn.RESIZE_SIZE[1]} ]
         }}
     ]
     output [
