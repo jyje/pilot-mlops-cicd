@@ -13,6 +13,8 @@ This project implements a complete MLOps pipeline from model training to service
 
 ## Project Goals
 
+![Pipeline Diagram](pipeline.png)
+
 ### MLOps Pipeline Implementation
 - Build a CI/CD system for model training and deployment
 - Persistent Storage for datasets and models
