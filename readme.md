@@ -11,7 +11,11 @@ This project implements a complete MLOps pipeline from model training to service
 ## Tech Stack
 
 ### Infrastructure & Deployment
-- Kubernetes & Helm
+- Kubernetes
+- Workload Manifests
+
+#### Plan (NOT YET 🥲)
+- Helm Charts
 - CI: GitHub Actions
 - CD: GitOps with ArgoCD
 
