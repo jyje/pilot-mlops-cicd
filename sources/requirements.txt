@@ -1,0 +1,7 @@
+torch               < 2.6
+torchvision         < 0.21
+torchsummary        < 1.6
+requests            < 2.33
+tritonclient[grpc]  < 2.55
+numpy               < 2.3
+opencv-python       < 4.12

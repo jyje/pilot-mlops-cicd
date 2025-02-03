@@ -1,0 +1,77 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-model
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: init-git
+        image: alpine/git
+        command: ["sh", "-c"]
+        args: 
+          - |
+            git clone -b develop https://github.com/jyje/pilot-mlops-cicd.git /workspace
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+      containers:
+      - name: main
+        image: python:3.12-slim
+        command: ["sh", "-c"]
+        args: 
+          - |
+            cd /workspace/sources && \
+            pip install --upgrade pip && \
+            pip install -r requirements.txt && \
+            python -u model-builder.py \
+              --dataset-root-path ${DATASET_ROOT_PATH} \
+              --model-root-path ${MODEL_ROOT_PATH} \
+              --model-name ${MODEL_NAME} \
+              --model-version ${MODEL_VERSION} \
+              --learning-rate ${LEARNING_RATE} \
+              --momentum ${MOMENTUM} \
+              --batch-size ${BATCH_SIZE} \
+              --t-max ${T_MAX} \
+              --num-workers ${NUM_WORKERS} \
+              --num-epochs ${NUM_EPOCHS} \
+              --log-level ${LOG_LEVEL}
+        envFrom:
+        - configMapRef:
+            name: model-builder
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+          readOnly: true
+        - name: datasets
+          mountPath: /datasets
+        - name: models
+          mountPath: /models
+      volumes:
+      - name: workspace
+        emptyDir: {}
+      - name: datasets
+        persistentVolumeClaim:
+          claimName: datasets
+      - name: models
+        persistentVolumeClaim:
+          claimName: models
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-builder
+data:
+  DATASET_ROOT_PATH: "/datasets"
+  MODEL_ROOT_PATH: "/models"
+  MODEL_NAME: "pilot"
+  MODEL_VERSION: "1"
+  LEARNING_RATE: "0.001"
+  MOMENTUM: "0.9"
+  BATCH_SIZE: "100"
+  T_MAX: "200"
+  NUM_WORKERS: "0"
+  NUM_EPOCHS: "3"
+  LOG_LEVEL: "DEBUG"
