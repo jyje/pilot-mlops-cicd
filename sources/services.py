@@ -290,6 +290,9 @@ def request_to_server(
     outputs = []
     outputs.append(tritonclient.grpc.InferRequestedOutput("4"))
     
+    # tick
+    start_time = time.time()
+
     # Do inference
     response = client.infer(
         model_name = model_name,
@@ -297,6 +300,10 @@ def request_to_server(
         inputs = inputs,
         outputs = outputs,
     )
+
+    # tock
+    end_time = time.time()
+    logging.info(f"Inference time: {(end_time - start_time) * 1000:.2f} [ms]")
 
     return response
 
