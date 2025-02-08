@@ -1,4 +1,18 @@
+<div align="center">
+
+<img alt="unsloth logo" src="https://github.com/user-attachments/assets/6481377b-fc32-496b-b17c-ec0d36b4996e" height="300" style="max-width: 100%;">
+
 # pilot-mlops-cicd
+
+An awesome example for MLOps CI/CD: Model Training & Serving and Its Infra...
+
+[![ci-workloads-main](https://github.com/jyje/pilot-mlops-cicd/actions/workflows/ci-workloads-main.yaml/badge.svg?branch=main)](https://github.com/jyje/pilot-mlops-cicd/actions/workflows/ci-workloads-main.yaml)
+[![ci-workloads-develop](https://github.com/jyje/pilot-mlops-cicd/actions/workflows/ci-workloads-develop.yaml/badge.svg?branch=develop)](https://github.com/jyje/pilot-mlops-cicd/actions/workflows/ci-workloads-develop.yaml)
+
+</div>
+
+---
+
 This project implements a complete MLOps pipeline from model training to service deployment in a Cloud Native environment.
 
 ## TL;DR
@@ -38,11 +52,13 @@ This project implements a complete MLOps pipeline from model training to service
 - Serving Platform: NVIDIA Triton Inference Server
 
 ## Getting Started
-See [k8s/readme.md](k8s/readme.md)
+- To deploy k8s, see [k8s/readme.md](k8s/readme.md)
+- To build docker image, see [docker/readme.md](docker/readme.md)
 
 ## Project Structure
 
 - assets: Sample images and models
+- docker: Dockerfile for model builder and client
 - k8s: Kubernetes manifests
 - notebooks: Jupyter notebooks for PoC
 - sources: Python source code for model builder and model client
