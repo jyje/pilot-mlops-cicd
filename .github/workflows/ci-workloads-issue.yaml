@@ -1,6 +1,7 @@
 name: ci-workloads-issue
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - "issue-**"
