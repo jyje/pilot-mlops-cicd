@@ -1,17 +1,17 @@
-name: ci-workloads-develop
+name: ci-workloads-main
 
 on:
   pull_request:
     branches:
-      - develop
+      - main
     paths:
-      - .github/workflows/ci-workloads-develop.yaml
+      - .github/workflows/ci-workloads-main.yaml
       - "sources/**"
   push:
     branches:
-      - develop
+      - main
     paths:
-      - .github/workflows/ci-workloads-develop.yaml
+      - .github/workflows/ci-workloads-main.yaml
       - "sources/**"
 
 jobs:
@@ -65,8 +65,8 @@ jobs:
           push: true
           provenance: false
           tags: |
-            ghcr.io/${{ github.repository }}-develop:${{ env.SHORT_SHA }}
+            ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
 
       - name: Test image
         run: |
-          docker run -i ghcr.io/${{ github.repository }}-develop:${{ env.SHORT_SHA }}
+          docker run -i ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
