@@ -1,12 +1,6 @@
 name: ci-workloads-develop
 
 on:
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - .github/workflows/ci-workloads-develop.yaml
-      - "sources/**"
   push:
     branches:
       - develop
