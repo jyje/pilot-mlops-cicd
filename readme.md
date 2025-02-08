@@ -44,6 +44,7 @@ This project implements a complete MLOps pipeline from model training to service
 ## Project Structure
 
 - assets: Sample images and models
+- docker: Dockerfile for model builder and client
 - k8s: Kubernetes manifests
 - notebooks: Jupyter notebooks for PoC
 - sources: Python source code for model builder and model client
