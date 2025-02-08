@@ -38,7 +38,8 @@ This project implements a complete MLOps pipeline from model training to service
 - Serving Platform: NVIDIA Triton Inference Server
 
 ## Getting Started
-See [k8s/readme.md](k8s/readme.md)
+- To deploy k8s, see [k8s/readme.md](k8s/readme.md)
+- To build docker image, see [docker/readme.md](docker/readme.md)
 
 ## Project Structure
 
