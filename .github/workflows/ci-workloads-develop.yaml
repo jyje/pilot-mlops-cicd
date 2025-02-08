@@ -5,11 +5,13 @@ on:
     branches:
       - develop
     paths:
+      - .github/workflows/ci-workloads-issue.yaml
       - "sources/**"
   push:
     branches:
       - develop
     paths:
+      - .github/workflows/ci-workloads-develop.yaml
       - "sources/**"
 
 jobs:
