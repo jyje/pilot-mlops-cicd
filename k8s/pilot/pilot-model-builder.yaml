@@ -27,10 +27,6 @@ spec:
         envFrom:
         - configMapRef:
             name: model-builder
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
         volumeMounts:
         - name: datasets
           mountPath: /datasets
@@ -44,6 +40,10 @@ spec:
         persistentVolumeClaim:
           claimName: models
       restartPolicy: Never
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
 ---
 apiVersion: v1
 kind: ConfigMap
