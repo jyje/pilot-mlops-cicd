@@ -1,12 +1,6 @@
 name: ci-workloads-develop
 
 on:
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - .github/workflows/ci-workloads-develop.yaml
-      - "sources/**"
   push:
     branches:
       - develop
@@ -57,7 +51,7 @@ jobs:
         run: echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
       - name: Build/Publish as GitHub Package
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./docker/Dockerfile
@@ -66,6 +60,8 @@ jobs:
           provenance: false
           tags: |
             ghcr.io/${{ github.repository }}-develop:${{ env.SHORT_SHA }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Test image
         run: |

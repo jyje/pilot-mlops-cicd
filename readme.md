@@ -40,10 +40,10 @@ This project implements a complete MLOps pipeline from model training to service
 - Kubernetes
 - Workload Manifests
 
-#### Plan (NOT YET 🥲)
-- Helm Charts
-- CI: GitHub Actions
-- CD: GitOps with ArgoCD
+#### Roadmap
+- [ ] Helm Charts for workloads
+- [x] CI: GitHub Actions
+- [ ] CD: GitOps with ArgoCD
 
 ### ML Components
 - Base Model: ResNet-18
