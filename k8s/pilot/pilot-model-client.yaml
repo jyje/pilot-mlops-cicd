@@ -6,112 +6,34 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+      - name: init-client
+        image: curlimages/curl
+        command: ["sh", "-c"]
+        args:
+        - |
+          while ! curl -s http://model-server:8000/v2/models/${MODEL_NAME}/versions/${MODEL_VERSION} | grep -q '"ready"'; do
+            echo "Waiting for the server to be ready..."
+            sleep 1
+          done && \
+          echo "Server is ready."
+        envFrom:
+        - configMapRef:
+            name: model-client
       containers:
       - name: main
         image: ghcr.io/jyje/pilot-mlops-cicd:latest
         command: ["sh", "-c"]
         args: 
           - |
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/0a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/0b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/1a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/1b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/2a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/2b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/3a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/3b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/4a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/4b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/5a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/5b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/6a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/6b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/7a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/7b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/8a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/8b.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/9a.png" && \
-            python -u model-client.py \
-              --server-host "${SERVER_HOST}" \
-              --model-name "${MODEL_NAME}" \
-              --model-version "${MODEL_VERSION}" \
-              --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/9b.png" && \
+            IFS=',' read -ra IMAGES <<< "${SAMPLE_IMAGES}" && \
+            for img in "${IMAGES[@]}"; do
+              python -u model-client.py \
+                --server-host "${SERVER_HOST}" \
+                --model-name "${MODEL_NAME}" \
+                --model-version "${MODEL_VERSION}" \
+                --image-url "https://raw.githubusercontent.com/jyje/pilot-mlops-cicd/refs/heads/develop/assets/sample_images/${img}.png"
+            done && \
             echo "Done"
         envFrom:
         - configMapRef:
@@ -126,3 +48,4 @@ data:
   SERVER_HOST: "model-server:8001"
   MODEL_NAME: "pilot"
   MODEL_VERSION: "1"
+  SAMPLE_IMAGES: "0a,0b,1a,1b,2a,2b,3a,3b,4a,4b,5a,5b,6a,6b,7a,7b,8a,8b,9a,9b"
