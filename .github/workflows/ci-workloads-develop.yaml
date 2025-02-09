@@ -60,6 +60,8 @@ jobs:
           provenance: false
           tags: |
             ghcr.io/${{ github.repository }}-develop:${{ env.SHORT_SHA }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Test image
         run: |
