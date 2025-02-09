@@ -24,6 +24,9 @@ This project implements a complete MLOps pipeline from model training to service
     1. Do Jupyter Notebook PoC using NVIDIA Triton Inference Server
     1. Build a CI/CD system for model training and deployment
     1. Do demonstrations using Kubernetes clusters
+    1. And all resources are integrated into this repository
+        - [x] The Docker images are built and pushed to GitHub Container Registry. (CI/CD for CI/CD)
+        - [ ] The Helm charts are published to GitHub Container Registry. (IaC)
 
 ## Project Goals
 
