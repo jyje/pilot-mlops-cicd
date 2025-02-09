@@ -6,25 +6,12 @@ metadata:
 spec:
   template:
     spec:
-      initContainers:
-      - name: init-git
-        image: alpine/git
-        command: ["sh", "-c"]
-        args: 
-          - |
-            git clone -b develop https://github.com/jyje/pilot-mlops-cicd.git /workspace
-        volumeMounts:
-        - name: workspace
-          mountPath: /workspace
       containers:
       - name: main
-        image: python:3.12-slim
+        image: ghcr.io/jyje/pilot-mlops-cicd:latest
         command: ["sh", "-c"]
         args: 
           - |
-            cd /workspace/sources && \
-            pip install --upgrade pip && \
-            pip install -r requirements.txt && \
             python -u model-builder.py \
               --dataset-root-path ${DATASET_ROOT_PATH} \
               --model-root-path ${MODEL_ROOT_PATH} \
@@ -41,16 +28,11 @@ spec:
         - configMapRef:
             name: model-builder
         volumeMounts:
-        - name: workspace
-          mountPath: /workspace
-          readOnly: true
         - name: datasets
           mountPath: /datasets
         - name: models
           mountPath: /models
       volumes:
-      - name: workspace
-        emptyDir: {}
       - name: datasets
         persistentVolumeClaim:
           claimName: datasets
@@ -58,6 +40,10 @@ spec:
         persistentVolumeClaim:
           claimName: models
       restartPolicy: Never
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
 ---
 apiVersion: v1
 kind: ConfigMap

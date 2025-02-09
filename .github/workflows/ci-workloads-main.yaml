@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - .github/workflows/ci-workloads-main.yaml
+      - "docker/Dockerfile"
       - "sources/**"
 
 jobs:

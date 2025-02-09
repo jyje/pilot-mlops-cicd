@@ -13,7 +13,7 @@ spec:
         app: model-server
     spec:
       initContainers:
-      - name: init-model
+      - name: init-server
         image: alpine
         command: ["sh", "-c"]
         args:

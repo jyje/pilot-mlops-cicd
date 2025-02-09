@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - .github/workflows/ci-workloads-develop.yaml
+      - "docker/Dockerfile"
       - "sources/**"
 
 jobs:
