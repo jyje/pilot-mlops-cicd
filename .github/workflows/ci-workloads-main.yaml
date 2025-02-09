@@ -59,6 +59,7 @@ jobs:
           push: true
           provenance: false
           tags: |
+            ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
 
       - name: Test image
