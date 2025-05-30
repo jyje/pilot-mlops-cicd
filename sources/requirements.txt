@@ -1,4 +1,4 @@
-torch               < 2.6
+torch               < 2.8
 torchvision         < 0.21
 torchsummary        < 1.6
 requests            < 2.33
